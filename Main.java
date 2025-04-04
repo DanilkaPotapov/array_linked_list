@@ -13,27 +13,23 @@ public class Main {
         System.out.println(getRollingAverage(arr, 2));
     }
 
-    public static List<Double> getRollingAverage(ArrayList<Integer> arr, int k) {
+    public static List<Double> getRollingAverage(List<Integer> arr, int k) {
         List<Double> resultList = new ArrayList<>();
-        int cur = 0;
-
-        for (int i = 0; i < k; i++) {
-            cur += arr.get(i);
+        if (arr == null || arr.isEmpty() || k <= 0 || k > arr.size()) {
+            return resultList;
         }
 
-        resultList.add((double) cur / k);
+        int currentSum = 0;
+        
 
-        int start = 0;
-        int end = k;
+        for (int i = 0; i < k; i++) {
+            currentSum += arr.get(i);
+        }
+        resultList.add((double) currentSum / k);
 
-        int iterations  = (arr.size() % 2 == 0) ? (arr.size() / k) : (arr.size() / k + 1);
-
-        for (int i = 0; i < iterations; i++) {
-            cur = cur - arr.get(start) + arr.get(end);
-            resultList.add((double) cur / k);
-
-            start++;
-            end++;
+        for (int i = k; i < arr.size(); i++) {
+            currentSum = currentSum - arr.get(i - k) + arr.get(i);
+            resultList.add((double) currentSum / k);
         }
 
         return resultList;
